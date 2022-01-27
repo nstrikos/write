@@ -123,7 +123,7 @@ ApplicationWindow {
                         application.height = 1000;
                     event.accepted = true;
                 } else if (event.key === Qt.Key_Escape) {
-                    application.visible = false
+                    application.close()
                 }
 
             }
@@ -193,28 +193,28 @@ ApplicationWindow {
 
         MenuItem {
             text: qsTr("Close")
-            onTriggered: application.visible = false
+            onTriggered: application.close()
         }
     }
 
-    SystemTrayIcon {
-        visible: true
-        icon.source: "qrc:/resources/icon.png"
+//    SystemTrayIcon {
+//        visible: true
+//        icon.source: "qrc:/resources/icon.png"
 
-        menu: Menu {
-            MenuItem {
-                text: qsTr("Quit")
-                onTriggered: Qt.quit()
-            }
-        }
+//        menu: Menu {
+//            MenuItem {
+//                text: qsTr("Quit")
+//                onTriggered: Qt.quit()
+//            }
+//        }
 
-        onActivated: {
-            if (!application.visible)
-                application.show()
-            else
-                application.hide()
-        }
-    }
+//        onActivated: {
+//            if (!application.visible)
+//                application.show()
+//            else
+//                application.hide()
+//        }
+//    }
 
     FontDialog {
         id: fontDialog
