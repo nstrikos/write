@@ -4,10 +4,22 @@
 
 #include <QQmlContext>
 
+#include <QSharedMemory>
+
 #include "file.h"
+
+static QSharedMemory sharedMemory;
+
 
 int main(int argc, char *argv[])
 {
+
+    sharedMemory.setKey("4c8ff818-1a54-4861-8ab5-1233e76735d2");
+
+    if (!sharedMemory.create(1))
+    {
+        exit(0);
+    }
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
