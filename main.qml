@@ -12,6 +12,8 @@ ApplicationWindow {
     title: qsTr("Hello World")
     flags: Qt.FramelessWindowHint
 
+    color: "white"
+
     //    property var windowFlags
 
     //    Component.onCompleted: {
@@ -30,6 +32,7 @@ ApplicationWindow {
         property bool italic: false
         property bool underline: false
         property color color: "blue"
+        property color backgroundColor: "white"
     }
 
     Component.onCompleted: {
@@ -39,6 +42,8 @@ ApplicationWindow {
         textArea.font.italic = settings.italic
         textArea.font.underline = settings.underline
         textArea.color = settings.color
+        backgroundRect.color = settings.backgroundColor
+        application.color = settings.backgroundColor
 
         textArea.text = file.read()
     }
@@ -50,12 +55,17 @@ ApplicationWindow {
         settings.italic = textArea.font.italic
         settings.underline = textArea.font.underline
         settings.color = textArea.color
+        settings.backgroundColor = backgroundRect.color
     }
 
     Flickable {
         id: flickable
         flickableDirection: Flickable.VerticalFlick
         anchors.fill: parent
+        anchors.topMargin: 25
+        anchors.bottomMargin: 25
+        anchors.leftMargin: 25
+        anchors.rightMargin: 25
 
         TextArea.flickable: TextArea {
             id: textArea
@@ -77,16 +87,12 @@ ApplicationWindow {
             font.italic: false
             font.underline: false
 
-            color: "blue"
-
             background:
-//                Image {
-//                source: "qrc:/resources/background.jpg"
+                //                Image {
+                //                source: "qrc:/resources/background.jpg"
                 Rectangle {
-                gradient: Gradient {
-                         GradientStop { position: 0.0; color: "brown" }
-                         GradientStop { position: 1.0; color: "burlywood" }
-                     }
+                id: backgroundRect
+                color: "white"
             }
 
             Keys.onPressed: {
@@ -192,35 +198,40 @@ ApplicationWindow {
         }
 
         MenuItem {
+            text: qsTr("Background color...")
+            onTriggered: backgroundColorDialog.open()
+        }
+
+        MenuItem {
             text: qsTr("Close")
             onTriggered: application.close()
         }
     }
 
-//    SystemTrayIcon {
-//        visible: true
-//        icon.source: "qrc:/resources/icon.png"
+    //    SystemTrayIcon {
+    //        visible: true
+    //        icon.source: "qrc:/resources/icon.png"
 
-//        menu: Menu {
-//            MenuItem {
-//                text: qsTr("Quit")
-//                onTriggered: Qt.quit()
-//            }
-//        }
+    //        menu: Menu {
+    //            MenuItem {
+    //                text: qsTr("Quit")
+    //                onTriggered: Qt.quit()
+    //            }
+    //        }
 
-//        onActivated: {
-//            if (!application.visible)
-//                application.show()
-//            else
-//                application.hide()
-//        }
-//    }
+    //        onActivated: {
+    //            if (!application.visible)
+    //                application.show()
+    //            else
+    //                application.hide()
+    //        }
+    //    }
 
     FontDialog {
         id: fontDialog
         onAccepted: {
-//            document.fontFamily = font.family;
-//            document.fontSize = font.pointSize;
+            //            document.fontFamily = font.family;
+            //            document.fontSize = font.pointSize;
             textArea.font.family = font.family;
             textArea.font.pointSize = font.pointSize;
             textArea.font.bold = font.bold;
@@ -232,5 +243,13 @@ ApplicationWindow {
     ColorDialog {
         id: colorDialog
         onAccepted: textArea.color = color
+    }
+
+    ColorDialog {
+        id: backgroundColorDialog
+        onAccepted: {
+            backgroundRect.color = color
+            application.color = color
+        }
     }
 }
