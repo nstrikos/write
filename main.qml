@@ -9,8 +9,8 @@ ApplicationWindow {
     width: 640
     height: 640
     visible: true
-    title: qsTr("Hello World")
-    flags: Qt.FramelessWindowHint
+    title: qsTr("Write")
+    //flags: Qt.FramelessWindowHint
 
     color: "white"
 
@@ -238,11 +238,24 @@ ApplicationWindow {
             textArea.font.italic = font.italic;
             textArea.font.underline = font.underline;
         }
+        onVisibleChanged: {
+            if (visible) {
+                font.family = textArea.font.family
+                font.pointSize = textArea.font.pointSize
+                font.bold = textArea.font.bold
+                font.italic = textArea.font.italic
+                font.underline = textArea.font.underline
+            }
+        }
     }
 
     ColorDialog {
         id: colorDialog
         onAccepted: textArea.color = color
+        onVisibleChanged: {
+            if (visible)
+                color = textArea.color
+        }
     }
 
     ColorDialog {
@@ -250,6 +263,10 @@ ApplicationWindow {
         onAccepted: {
             backgroundRect.color = color
             application.color = color
+        }
+        onVisibleChanged: {
+            if (visible)
+                color = backgroundRect.color
         }
     }
 }
